@@ -4,9 +4,6 @@ $(document).ready(function () {
   var search = "";
   var title = "";
   var posterURL = "";
-  var date = "";
-  var recent = "";
-  var imdbID = "";
   var oldSearch = "";
 
   // ---------- ON.CLICKS ----------
