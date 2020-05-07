@@ -38,16 +38,14 @@ $(document).ready(function () {
     }).then(function (response) {
       console.log(response);
       for (var i = 0; i < response.data.length; i++) {
-        posterURL = response.data[i].images.original.url
+        posterURL = response.data[i].images.original.url;
         $("#results")
-          .append(`<div class="card col-sm-3 m-1" style="width: 18rem;">
-        <img src="${posterURL}" class="card-img-top mt-3" style="width:auto; height:400px" />
-        <div class="card-body">
-        <div style="height:80px">
-          <p class="card-text">
-            <strong>Title:</strong> ${title} <br/>
-          </p>
-          </div>
+          .append(`<div class="card col-sm-2 m-1" style="height: 230px">
+        <img src="${posterURL}" class="card-img-top mt-3 mx-auto" style="width:150px; height:150px" />
+        <div>
+          <a class="urltext" class="text-center smallest" href="${response.data[i].bitly_url}">
+            ${response.data[i].bitly_url}
+          </a>
         </div>
       </div>`);
       }
