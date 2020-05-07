@@ -56,12 +56,13 @@ $(document).ready(function () {
     $("#search").val("");
   }
 
-  function renderRedditResults() {
+  function renderRedditResults(str) {
     $.ajax({
       type: "GET",
-      url: "https://www.reddit.com/r/dogs/.json",
+      url: `https://www.reddit.com/r/${str}/.json`,
       dataType: "json",
     }).then(function (res) {
+      console.log(res);
       console.log(res.data.children[0].data);
       $("body").append(`<p>${res.data.children[0].data}</p>`);
     });
