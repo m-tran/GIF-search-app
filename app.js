@@ -15,7 +15,8 @@ $(document).ready(function () {
     $("#pastSearches").append(
       `<button class="reSearch btn">${search}</button>`
     );
-    renderResults(search);
+    renderGiphyResults(search);
+    renderRedditResults(search);
   });
 
   // see more button
@@ -23,12 +24,13 @@ $(document).ready(function () {
   // history
   $(document).on("click", ".reSearch", function () {
     oldSearch = $(this).text();
-    renderResults(oldSearch);
+    renderGiphyResults(oldSearch);
+    renderRedditResults(search);
   });
 
   // ---------- FUNCTIONS ----------
 
-  function renderResults(str) {
+  function renderGiphyResults(str) {
     $("#results").html("");
 
     $.ajax({
@@ -36,7 +38,6 @@ $(document).ready(function () {
       url: `https://api.giphy.com/v1/gifs/search?api_key=07S9I5BCiB35dZ0afrPbtrBm9M9xMq49&q=${str}&limit=20`,
       dataType: "json",
     }).then(function (response) {
-      console.log(response);
       for (var i = 0; i < response.data.length; i++) {
         posterURL = response.data[i].images.original.url;
         $("#results")
@@ -51,5 +52,17 @@ $(document).ready(function () {
       }
     });
     $("#search").val("");
+  }
+
+  function renderRedditResults(str) {
+    $.ajax({
+      type: "GET",
+      url: `https://www.reddit.com/r/${str}/.json`,
+      dataType: "json",
+    }).then(function (res) {
+      console.log(res);
+      console.log(res.data.children[0].data);
+      $("body").append(`<p>${res.data.children[0].data}</p>`);
+    });
   }
 });
