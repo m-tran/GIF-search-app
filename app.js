@@ -56,14 +56,14 @@ $(document).ready(function () {
     $("#search").val("");
   }
 
-  function renderRedditResults(str) {
+  function renderRedditResults() {
     $.ajax({
       type: "GET",
-      url: `https://api.giphy.com/v1/gifs/search?api_key=07S9I5BCiB35dZ0afrPbtrBm9M9xMq49&q=${str}&limit=20`,
+      url: "https://www.reddit.com/r/dogs/.json",
       dataType: "json",
-    }).then(function (response) {
-      console.log(response);
-      console.log("renderRedditResults working");
+    }).then(function (res) {
+      console.log(res.data.children[0].data);
+      $("body").append(`<p>${res.data.children[0].data}</p>`);
     });
   }
 });
