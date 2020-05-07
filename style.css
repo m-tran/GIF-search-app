@@ -1,0 +1,20 @@
+.navbar, .search-bar {
+    justify-content: center;
+}
+
+.navbar, input {
+    outline: 3px solid black;
+    background-color: white;
+}
+
+input {
+    margin-right: 4px;
+}
+
+.urltext {
+    font-size: 12px;
+}
+
+.btn {
+    width: 15%;
+}
