@@ -18,3 +18,45 @@ input {
 .btn {
     width: 15%;
 }
+
+header{
+    
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    min-height: 50px;
+    height: 10vh;
+    background-color: black;
+    
+}
+.darkMode{
+
+    color:white;
+    background-color: black;
+}
+
+.lightMode{
+
+    color:black;
+    background-color: white;
+}
+
+
+
+.toggleTrue{
+
+    margin-left: 30px;
+}
+.toggleFalse{
+
+    margin-left: 0;
+}
+.reSearch{
+
+    background-color: white;
+}
+
+.card-img-top {
+
+    height: 150px !important;
+}
