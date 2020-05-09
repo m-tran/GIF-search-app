@@ -22,7 +22,7 @@
   </nav>
   <main>
     <div class="container">
-      <div class="search-bar row col-sm-12" id="pastSearches">
+      <div class="search-bar row col-sm-12 mb-2" id="pastSearches">
         <!-- an unordered list should appear -->
         <form class="m-5 col-sm-10">
           <input class="col-sm-10 align-middle" type="text" name="search" id="search" placeholder="Search..." />
@@ -30,7 +30,7 @@
         </form>
       </div>
 
-      <div id="results" class="row"></div>
+      <div id="results" class="row justify-content-between mb-2"></div>
       <!-- display results here -->
     </div>
 
@@ -44,10 +44,27 @@
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">Input Valodation</h4>
+            <h4 class="modal-title">Input Validation</h4>
           </div>
           <div class="modal-body">
-            <br>Error from GET Request. </br>Please Try Again </p>
+            <br>Error from GET Request.</br>Please Try Again </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="myModalCheck" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Search twice for the same name</h4>
+          </div>
+          <div class="modal-body">
+            <p> Wrong input </p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
