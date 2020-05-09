@@ -10,7 +10,13 @@
   <title>Giphy Generator</title>
 </head>
 
-<body style="background-color: white;">
+<body>
+  <header>
+    <div class="toggler">
+      <div id="toggleDisplay" class="toggle toggleFalse"></div>
+    </div>
+  </header>
+
   <nav class="navbar navbar-light">
     <a class="navbar-brand text-dark">Giphy Generator</a>
   </nav>
@@ -23,12 +29,45 @@
           <button class="btn btn-dark align-middle" type="submit" id="btnSubmit">Search</button>
         </form>
       </div>
+
       <div id="results" class="row"></div>
       <!-- display results here -->
     </div>
+
+    <div class="container">
+      <div class="card-deck row" id="reddit">
+      </div>
+    </div>
+
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Input Valodation</h4>
+          </div>
+          <div class="modal-body">
+            <br>Error from GET Request. </br>Please Try Again </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
+
   <script src="https://code.jquery.com/jquery-3.5.0.min.js"
+    integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous">
+    </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"
     integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
+    integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
+    crossorigin="anonymous"></script>
   <script src="./app.js"></script>
 </body>
 
