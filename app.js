@@ -9,15 +9,15 @@ $(document).ready(function () {
   var arrPicture;
   var data;
   var toggleStatus;
+  var arrValueInput = [];
   // ---------- ON.CLICKS ----------
 
   // submit button
   $(document).on("click", "#btnSubmit", function (e) {
     e.preventDefault();
     search = $("#search").val();
-    $("#pastSearches").append(
-      `<button class="reSearch btn">${search}</button>`
-    );
+    $("#search").val("");
+    isValidInput(search, arrValueInput);
 
     whiteModeDark(toggleStatus);
     $("#reddit").html("");
@@ -37,6 +37,31 @@ $(document).ready(function () {
 
   // ---------- FUNCTIONS ----------
 
+  // input validation from user
+  function isValidInput(search, arrValueInput) {
+    var pattern = new RegExp(/^[a-zA-Z0-9- ]*$/);
+    var hasNumber = /\d/;
+
+    if (!arrValueInput.includes(search)) {
+      if (search === "" || hasNumber.test(search) || !pattern.test(search)) {
+        $("#myModal").modal();
+        $("#myModal").addClass("lightMode");
+      } else {
+        arrValueInput.push(search.toLocaleLowerCase());
+        $("#pastSearches").append(
+          `<button class="reSearch btn mr-2">${search}</button>`
+        );
+        whiteModeDark(toggleStatus);
+        renderGiphyResults(search);
+        renderRedditResults(search, arrReddit, arrPicture);
+        $("#reddit").html("");
+      }
+    } else {
+      $("#myModalCheck").modal();
+      $("#myModalCheck").addClass("lightMode");
+    }
+  }
+
   function renderGiphyResults(str) {
     $("#results").html("");
 
@@ -55,6 +80,7 @@ $(document).ready(function () {
           <a class="urltext" class="text-center smallest" href="${response.data[i].bitly_url}">
             ${response.data[i].bitly_url}
           </a>
+        
         </div>
       </div>`);
         }
@@ -137,6 +163,20 @@ $(document).ready(function () {
     }
   }
 
+  //function adding style to Modal
+  function modalSetClassDarkLightMode(toggleStatus) {
+    toggleStatus = toggleDisplay.getAttribute("class");
+
+    if (toggleStatus === "toggle toggleFalse") {
+      toggleDisplay.setAttribute("class", "toggle toggleTrue");
+      $("#myModal").addClass("darkMode");
+    } else {
+      toggleDisplay.setAttribute("class", "toggle toggleFalse");
+      $("#myModal").addClass("lightMode");
+    }
+  }
+
+  // function - white dark mode
   function whiteModeDark(toggleStatus) {
     toggleStatus = toggleDisplay.getAttribute("class");
     if (toggleStatus === "toggle toggleFalse") {
