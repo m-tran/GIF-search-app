@@ -142,13 +142,14 @@ $(document).ready(function () {
   }
 
   function randomPictureAndComments(arrPicture, arrReddit) {
+    $("#reddit").html("");
     for (var i = 0; i < 4; i++) {
       var x = Math.floor(Math.random() * arrPicture.length);
       var y = Math.floor(Math.random() * arrReddit.length);
       $("#reddit").append(`
         <div class="card">
           <img src="${arrPicture[x]}"
-            class="card-img-top mt-3 mx-3" alt="Picture not found" id="img" style="width: auto">
+            class="card-img-top mt-3 mx-3" alt="Picture not found" style="width: auto">
           <div class="card-body">
           <a href="${arrReddit[y].datalink}" class="font-weight-bold" style="text-decoration:underline">${arrReddit[y].title}</a>
             <p class="card-text font-weight-bold text-dark">Subreddit:</br>${arrReddit[y].subreddit}</p>
