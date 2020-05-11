@@ -2,20 +2,39 @@ $(document).ready(function () {
   // ---------- VARIABLES ----------
 
   var search = "";
-  var title = "";
   var posterURL = "";
   var oldSearch = "";
-
+  // add---------------------------------------
+  var arrReddit;
+  var arrPicture;
+  var data;
+  var toggleStatus;
+  var arrValueInput = [];
   // ---------- ON.CLICKS ----------
 
   // submit button
   $(document).on("click", "#btnSubmit", function (e) {
     e.preventDefault();
     search = $("#search").val();
-    $("#pastSearches").append(
-      `<button class="reSearch btn">${search}</button>`
-    );
-    renderResults(search);
+    $("#search").val("");
+    isValidInput(search, arrValueInput);
+
+    whiteModeDark(toggleStatus);
+    $("#reddit").html("");
+    renderGiphyResults(search);
+    renderRedditResults(search, arrReddit, arrPicture);
+  });
+
+  $(document).on("click", ".linkBtn", function () {
+    var link = $(this).attr("data-url");
+    var $textBox = $(`<input type='text' value=${link}>`);
+    $("#temp").html($textBox);
+    $textBox.select();
+    console.log($textBox);
+    document.execCommand("copy")
+      ? console.log("copy succesful, check your clipboard")
+      : console.error("error error");
+    $textBox.remove();
   });
 
   // see more button
@@ -23,35 +42,174 @@ $(document).ready(function () {
   // history
   $(document).on("click", ".reSearch", function () {
     oldSearch = $(this).text();
-    renderResults(oldSearch);
+    whiteModeDark(toggleStatus);
+    renderGiphyResults(oldSearch);
+    renderRedditResults(oldSearch, arrReddit, arrPicture);
   });
 
   // ---------- FUNCTIONS ----------
 
-  function renderResults(str) {
+  // input validation from user
+  function isValidInput(search, arrValueInput) {
+    var pattern = new RegExp(/^[a-zA-Z0-9- ]*$/);
+    var hasNumber = /\d/;
+
+    if (!arrValueInput.includes(search)) {
+      if (search === "" || hasNumber.test(search) || !pattern.test(search)) {
+        $("#myModal").modal();
+        $("#myModal").addClass("lightMode");
+      } else {
+        arrValueInput.push(search.toLocaleLowerCase());
+        $("#pastSearches").append(
+          `<button class="reSearch btn mr-2">${search}</button>`
+        );
+        whiteModeDark(toggleStatus);
+        renderGiphyResults(search);
+        renderRedditResults(search, arrReddit, arrPicture);
+        $("#reddit").html("");
+      }
+    } else {
+      $("#myModalCheck").modal();
+      $("#myModalCheck").addClass("lightMode");
+    }
+  }
+
+  function renderGiphyResults(str) {
     $("#results").html("");
 
     $.ajax({
       type: "GET",
       url: `https://api.giphy.com/v1/gifs/search?api_key=07S9I5BCiB35dZ0afrPbtrBm9M9xMq49&q=${str}&limit=20`,
       dataType: "json",
-    }).then(function (response) {
-      console.log(response);
-      for (var i = 0; i < response.data.length; i++) {
-        posterURL = response.data[i].images.original.url
-        $("#results")
-          .append(`<div class="card col-sm-3 m-1" style="width: 18rem;">
-        <img src="${posterURL}" class="card-img-top mt-3" style="width:auto; height:400px" />
-        <div class="card-body">
-        <div style="height:80px">
-          <p class="card-text">
-            <strong>Title:</strong> ${title} <br/>
-          </p>
-          </div>
+    })
+      .then(function (response) {
+        for (var i = 0; i < response.data.length; i++) {
+          posterURL = response.data[i].images.original.url;
+          $("#results")
+            .append(`<div class="card col-sm-2 m-1" style="height: 230px">
+        <img src="${posterURL}" class="card-img-top mt-3 mx-auto" style="width:150px; height:150px" />
+        <div>
+          <a class="urltext" class="text-center smallest" href="${response.data[i].bitly_url}">
+            ${response.data[i].bitly_url}
+          </a>
+          <div><button class="linkBtn" data-url=${response.data[i].images.original.url}>Copy Giphy URL</button></div>
         </div>
       </div>`);
-      }
-    });
+        }
+        // adding catch error from GET request
+      })
+      .catch(function (res) {
+        $("#myModal").modal();
+      });
+
     $("#search").val("");
   }
+
+  function renderRedditResults(str, arrReddit, arrReddit) {
+    // ----------------------------------------------------------------------------//
+    var input = myTrim(str);
+    arrReddit = [];
+    arrPicture = [];
+    $("#reddit").html("");
+    $.ajax({
+      type: "GET",
+      url: `https://www.reddit.com/r/${input}/.json`,
+      dataType: "json",
+    })
+      .then(function (res) {
+        for (var i = 0; i < res.data.children.length; i++) {
+          data = res.data.children[i].data;
+          var Reddit = {
+            datalink: "http://www.reddit.com/" + data.permalink,
+            title: data.title,
+            subreddit: data.subreddit,
+            author: data.author,
+          };
+          arrReddit.push(Reddit);
+        }
+
+        $.ajax({
+          type: "GET",
+          url: `https://www.reddit.com/r/pics/search.json?q=${input}&restrict_sr=on&include_over_18=on&sort=relevance&t=all`,
+          dataType: "json",
+        }).then(function (res) {
+          for (var i = 0; i < res.data.children.length; i++) {
+            arrPicture.push(res.data.children[i].data.thumbnail);
+          }
+
+          randomPictureAndComments(arrPicture, arrReddit);
+        });
+        // adding catch error from GET request
+      })
+      .catch(function (res) {
+        $("#myModal").modal();
+      });
+    $("#relevantReddit").text(`Some relevant stuff on Reddit:`);
+    $("#seeMoreAt").html(`See more at <a id="subredditLink" href=""></a>`);
+  }
+
+  // function deleting white spaeces for Reddit GET request
+  function myTrim(str) {
+    return str.replace(/\s/g, "");
+  }
+
+  function randomPictureAndComments(arrPicture, arrReddit) {
+    $("#reddit").html("");
+    for (var i = 0; i < 4; i++) {
+      var x = Math.floor(Math.random() * arrPicture.length);
+      var y = Math.floor(Math.random() * arrReddit.length);
+      $("#reddit").append(`
+        <div class="card">
+          <img src="${arrPicture[x]}"
+            class="card-img-top mt-3 mx-3" alt="Picture not found" style="width: auto">
+          <div class="card-body">
+          <a href="${arrReddit[y].datalink}" class="font-weight-bold" style="text-decoration:underline">${arrReddit[y].title}</a>
+            <p class="card-text font-weight-bold text-dark">Subreddit:</br>${arrReddit[y].subreddit}</p>
+            <p class="card-text font-weight-bold text-dark">By: ${arrReddit[y].author}</p>
+          </div>
+        </div>`);
+      $("#subredditLink").attr(
+        "href",
+        `http://reddit.com/r/${arrReddit[y].subreddit}`
+      );
+      $("#subredditLink").text(`r/${arrReddit[y].subreddit}`);
+    }
+  }
+
+  //function adding style to Modal
+  function modalSetClassDarkLightMode(toggleStatus) {
+    toggleStatus = toggleDisplay.getAttribute("class");
+
+    if (toggleStatus === "toggle toggleFalse") {
+      toggleDisplay.setAttribute("class", "toggle toggleTrue");
+      $("#myModal").addClass("darkMode");
+    } else {
+      toggleDisplay.setAttribute("class", "toggle toggleFalse");
+      $("#myModal").addClass("lightMode");
+    }
+  }
+
+  // function - white dark mode
+  function whiteModeDark(toggleStatus) {
+    toggleStatus = toggleDisplay.getAttribute("class");
+    if (toggleStatus === "toggle toggleFalse") {
+      toggleDisplay.setAttribute("class", " toggle toggleTrue");
+      document.body.setAttribute("class", "darkMode");
+    } else {
+      toggleDisplay.setAttribute("class", "toggle toggleFalse");
+      document.body.setAttribute("class", "lightMode");
+    }
+  }
+
+  // ------------------------------------------------------------------------------------------------------------------------//
 });
+
+// $.ajax({
+//   type: "GET",
+//   url: `https://www.reddit.com/r/${str}/.json`,
+//   dataType: "json",
+// }).then(function (res) {
+//   console.log(res);
+//   console.log(res.data.children[0].data);
+//   $("body").append(`<p>${res.data.children[0].data}</p>`);
+// });
