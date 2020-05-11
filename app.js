@@ -40,6 +40,18 @@ $(document).ready(function () {
   }
 
 
+  $(document).on("click", ".linkBtn", function () {
+    var link = $(this).attr("data-url");
+    var $textBox = $(`<input type='text' value=${link}>`);
+    $("#temp").html($textBox);
+    $textBox.select();
+    console.log($textBox);
+    document.execCommand("copy")
+      ? console.log("copy succesful, check your clipboard")
+      : console.error("error error");
+    $textBox.remove();
+  });
+
   // see more button
 
   // history
@@ -142,6 +154,10 @@ $(document).ready(function () {
           <a class="urltext" class="text-center smallest" href="${response.data[i].bitly_url}">
           ${response.data[i].bitly_url}
           </a>
+<<<<<<< HEAD
+=======
+          <div><button class="linkBtn" data-url=${response.data[i].images.original.url}>Copy Giphy URL</button></div>
+>>>>>>> 45d12b68f265405478b1d33a7a6bfc83cb25c04a
         </div>
         </div>
       </>`);
