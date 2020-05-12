@@ -68,7 +68,6 @@ header {
     color: black;
     display: flex;
     justify-content: flex-end;
-    margin-top: 2px;
 }
 
 .card {
