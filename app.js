@@ -47,8 +47,18 @@ $(document).ready(function () {
     $textBox.select();
     console.log($textBox);
     document.execCommand("copy")
-      ? console.log("copy succesful, check your clipboard")
-      : console.error("error error");
+
+    $(this).removeClass("btn-secondary");
+    $(this).addClass("btn-outline-success");
+    $(this).text("Copied!");
+
+    window.setTimeout(function(){
+      $(".linkBtn").removeClass("btn-outline-success");
+      $(".linkBtn").addClass("btn-secondary");
+      $(".linkBtn").text("Copy Giphy URL");
+    }, 3000);
+  
+    // console.error("error error");
     $textBox.remove();
   });
 
@@ -155,7 +165,7 @@ $(document).ready(function () {
           <a class="urltext" class="text-center smallest" href="${response.data[i].bitly_url}">
           ${response.data[i].bitly_url}
           </a>
-          <div><button class="linkBtn" data-url=${response.data[i].images.original.url}>Copy Giphy URL</button></div>
+          <div><button type="button" class="linkBtn btn btn-secondary btn-sm" data-url=${response.data[i].images.original.url}>Copy Giphy URL</button></div>
         </div>
         </div>
       </>`);

@@ -21,6 +21,10 @@ input {
   width: 15%;
 }
 
+.linkBtn {
+  width: 80%;
+}
+
 header {
   display: flex;
   justify-content: flex-end;
