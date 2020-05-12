@@ -65,8 +65,7 @@ header {
 }
 .icon{
 
-   color: black;
+    color: black;
     display: flex;
     justify-content: flex-end;
-    margin-top: 2px;
 }
