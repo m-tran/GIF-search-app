@@ -69,3 +69,9 @@ header {
     display: flex;
     justify-content: flex-end;
 }
+
+.card {
+  height: 260px !important;
+  padding-top: 5px;
+  text-align: center;
+}
