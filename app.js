@@ -145,7 +145,7 @@ $(document).ready(function () {
         posterURL = response.data[i].images.original.url;
         $("#results")
           .append(`<div class="card col-sm-2 m-1 cardGiphy" data-id=${i} style="height: 230px">
-           <i class="far fa-star icon"></i>
+            <i class="far fa-star icon"></i>
         <img src="${posterURL}"class="card-img-top mt-3 mx-auto" style="width:150px; height:150px" />
         <div>
           <a class="urltext" class="text-center smallest" href="${response.data[i].bitly_url}">
