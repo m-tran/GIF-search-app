@@ -189,7 +189,6 @@ $(document).ready(function () {
 
     $("#search").val("");
   }
-
   function renderRedditResults(str, arrReddit, arrPicture) {
     // ----------------------------------------------------------------------------//
     var input = myTrim(str);
@@ -229,9 +228,9 @@ $(document).ready(function () {
       .catch(function (res) {
         $("#relevantReddit").text(
           res.responseJSON.message +
-            " " +
-            res.responseJSON.cod +
-            " Error from GET Response Reddit"
+          " " +
+          res.responseJSON.cod +
+          " Error from GET Response Reddit"
         );
         $("#seeMoreAt").html("");
       });
