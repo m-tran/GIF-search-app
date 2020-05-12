@@ -14,8 +14,6 @@ $(document).ready(function () {
   var bitlyArr;
   var Bitly;
 
-
-
   // ---------- ON.CLICKS ----------
 
   if (localStorage) {
@@ -87,13 +85,11 @@ $(document).ready(function () {
   });
 
   $(document).on("click", ".cardGiphy", function () {
-
     console.log($(this));
 
     var icon = $(this)[0].children[0];
     icon.classList.add("yellow");
     Bitly = {
-
       src: $(this)[0].children[1].currentSrc,
       bit: $(this)[0].children[2].children[0].href,
     };
@@ -103,9 +99,6 @@ $(document).ready(function () {
     window.localStorage.setItem("url", JSON.stringify(url));
 
     window.localStorage.setItem("Bitly", JSON.stringify(bitlyShort));
-
-
-
   });
 
   $("#localBtn").on("click", function (event) {
@@ -114,7 +107,10 @@ $(document).ready(function () {
     $("#results").html("");
     $("#seeMoreAt").html("");
     $("#relevantReddit").html("");
-    if (window.localStorage.getItem("url") && window.localStorage.getItem("Bitly")) {
+    if (
+      window.localStorage.getItem("url") &&
+      window.localStorage.getItem("Bitly")
+    ) {
       tempArray = JSON.parse(window.localStorage.getItem("url"));
       bitlyArr = JSON.parse(window.localStorage.getItem("Bitly"));
       renderLocalStorge(tempArray, bitlyArr);
@@ -171,22 +167,13 @@ $(document).ready(function () {
       type: "GET",
       url: `https://api.giphy.com/v1/gifs/search?api_key=07S9I5BCiB35dZ0afrPbtrBm9M9xMq49&q=${str}&limit=20`,
       dataType: "json",
-
-    })
-      .then(function (response) {
-
-        for (var i = 0; i < response.data.length; i++) {
-          posterURL = response.data[i].images.original.url;
-          // bitlyArr.push(response.data[i].bitly_url);
-          $("#results")
-            .append(`<div class="card col-sm-2 m-1 cardGiphy" data-id=${i} style="height: 230px">
-
     }).then(function (response) {
       for (var i = 0; i < response.data.length; i++) {
         posterURL = response.data[i].images.original.url;
+        // bitlyArr.push(response.data[i].bitly_url);
         $("#results")
           .append(`<div class="card col-sm-2 m-1 cardGiphy" data-id=${i} style="height: 230px">
-           <i class="far fa-star icon"></i>
+          <i class="far fa-star icon"></i>
 
         <img src="${posterURL}"class="card-img-top mt-3 mx-auto" style="width:150px; height:150px" />
         <div>
