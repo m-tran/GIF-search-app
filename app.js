@@ -10,20 +10,35 @@ $(document).ready(function () {
   var data;
   var toggleStatus;
   var arrValueInput = [];
+  var tempArray;
+
   // ---------- ON.CLICKS ----------
 
-  // submit button
-  $(document).on("click", "#btnSubmit", function (e) {
-    e.preventDefault();
-    search = $("#search").val();
-    $("#search").val("");
-    isValidInput(search, arrValueInput);
+  if (localStorage) {
+    tempArray = JSON.parse(window.localStorage.getItem("url"));
+    if (tempArray == null) {
+      var url = [];
+      tempArray = [];
+      submitBtn();
+    } else {
+      url = tempArray;
+      submitBtn();
+    }
+  }
 
-    whiteModeDark(toggleStatus);
-    $("#reddit").html("");
-    renderGiphyResults(search);
-    renderRedditResults(search, arrReddit, arrPicture);
-  });
+  // submit button
+  function submitBtn() {
+
+    $(document).on("click", "#btnSubmit", function (e) {
+      e.preventDefault();
+      search = $("#search").val();
+      $("#search").val("");
+      isValidInput(search, arrValueInput);
+
+    });
+
+  }
+
 
   $(document).on("click", ".linkBtn", function () {
     var link = $(this).attr("data-url");
@@ -57,18 +72,64 @@ $(document).ready(function () {
     renderRedditResults(oldSearch, arrReddit, arrPicture);
   });
 
+
+  $("#deleteBtn").on("click", function (event) {
+
+    event.preventDefault();
+    $("#results").html("");
+    $(".delete").html("");
+    window.localStorage.clear();
+    url = [];
+  });
+
+  $(document).on("click", ".cardGiphy", function () {
+
+    var icon = $(this)[0].children[0];
+    icon.classList.add("yellow");
+    url.push($(this)[0].children[1].currentSrc);
+    window.localStorage.setItem("url", JSON.stringify(url));
+
+  });
+
+  $("#localBtn").on("click", function (event) {
+
+    event.preventDefault();
+    $("#reddit").html("");
+    $("#results").html("");
+    $("#seeMoreAt").html("");
+    $("#relevantReddit").html("");
+    if (window.localStorage.getItem("url")) {
+      tempArray = JSON.parse(window.localStorage.getItem("url"));
+      renderLocalStorge(tempArray);
+    }
+
+  });
+
   // ---------- FUNCTIONS ----------
+
+  function renderLocalStorge(tempArray) {
+    for (var i = 0; i < tempArray.length; i++) {
+      posterURL = tempArray[i];
+      $("#results")
+        .append(`<div class="card col-sm-2 m-1" style="height: 230px">
+    <img src="${posterURL}" class="card-img-top mt-3 mx-auto " style="width:150px; height:150px" />
+    <div>   
+    </div>
+  </>`);
+    }
+  }
 
   // input validation from user
   function isValidInput(search, arrValueInput) {
+
     var pattern = new RegExp(/^[a-zA-Z0-9- ]*$/);
     var hasNumber = /\d/;
-
     if (!arrValueInput.includes(search)) {
       if (search === "" || hasNumber.test(search) || !pattern.test(search)) {
         $("#myModal").modal();
         $("#myModal").addClass("lightMode");
       } else {
+
         arrValueInput.push(search.toLocaleLowerCase());
         $("#pastSearches").append(
           `<button class="reSearch btn mr-2">${search}</button>`
@@ -93,23 +154,23 @@ $(document).ready(function () {
       dataType: "json",
     })
       .then(function (response) {
+
         for (var i = 0; i < response.data.length; i++) {
           posterURL = response.data[i].images.original.url;
           $("#results")
-            .append(`<div class="card col-sm-2 m-1" style="height: 230px">
-        <img src="${posterURL}" class="card-img-top mt-3 mx-auto" style="width:150px; height:150px" />
+            .append(`<div class="card col-sm-2 m-1 cardGiphy" data-id=${i} style="height: 230px">
+           <i class="far fa-star icon"></i>
+        <img src="${posterURL}"class="card-img-top mt-3 mx-auto" style="width:150px; height:150px" />
         <div>
           <a class="urltext" class="text-center smallest" href="${response.data[i].bitly_url}">
-            ${response.data[i].bitly_url}
+          ${response.data[i].bitly_url}
           </a>
           <div><button type="button" class="linkBtn btn btn-secondary btn-sm" data-url=${response.data[i].images.original.url}>Copy Giphy URL</button></div>
         </div>
-      </div>`);
+        </div>
+      </>`);
+
         }
-        // adding catch error from GET request
-      })
-      .catch(function (res) {
-        $("#myModal").modal();
       });
 
     $("#search").val("");
@@ -152,7 +213,8 @@ $(document).ready(function () {
         // adding catch error from GET request
       })
       .catch(function (res) {
-        $("#myModal").modal();
+        $("#relevantReddit").text(res.responseJSON.message + " " + res.responseJSON.cod + " Error from GET Response Reddit");
+        $("#seeMoreAt").html("");
       });
     $("#relevantReddit").text(`Some relevant stuff on Reddit:`);
     $("#seeMoreAt").html(`See more at <a id="subredditLink" href=""></a>`);
@@ -212,6 +274,7 @@ $(document).ready(function () {
   }
 
   // ------------------------------------------------------------------------------------------------------------------------//
+
 });
 
 // $.ajax({
