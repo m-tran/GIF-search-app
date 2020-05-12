@@ -146,6 +146,7 @@ $(document).ready(function () {
         $("#results")
           .append(`<div class="card col-sm-2 m-1 cardGiphy" data-id=${i} style="height: 230px">
            <i class="far fa-star icon"></i>
+
         <img src="${posterURL}"class="card-img-top mt-3 mx-auto" style="width:150px; height:150px" />
         <div>
           <a class="urltext" class="text-center smallest" href="${response.data[i].bitly_url}">
@@ -226,7 +227,6 @@ $(document).ready(function () {
             class="card-img-top mt-3 mx-3" alt="Picture not found" style="width: auto">
           <div class="card-body">
           <a href="${arrReddit[y].datalink}" class="font-weight-bold" style="text-decoration:underline">${arrReddit[y].title}</a>
-            <p class="card-text font-weight-bold text-dark">Subreddit:</br>${arrReddit[y].subreddit}</p>
             <p class="card-text font-weight-bold text-dark">By: ${arrReddit[y].author}</p>
           </div>
         </div>`);
