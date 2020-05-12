@@ -36,17 +36,13 @@ $(document).ready(function () {
 
   // submit button
   function submitBtn() {
-
     $(document).on("click", "#btnSubmit", function (e) {
       e.preventDefault();
       search = $("#search").val();
       $("#search").val("");
       isValidInput(search, arrValueInput);
-
     });
-
   }
-
 
   $(document).on("click", ".linkBtn", function () {
     var link = $(this).attr("data-url");
@@ -54,7 +50,7 @@ $(document).ready(function () {
     $("#temp").html($textBox);
     $textBox.select();
     console.log($textBox);
-    document.execCommand("copy")
+    document.execCommand("copy");
 
     $(this).removeClass("btn-secondary");
     $(this).addClass("btn-outline-success");
@@ -80,9 +76,7 @@ $(document).ready(function () {
     renderRedditResults(oldSearch, arrReddit, arrPicture);
   });
 
-
   $("#deleteBtn").on("click", function (event) {
-
     event.preventDefault();
     $("#results").html("");
     $("#seeMoreAt").html("");
@@ -93,7 +87,9 @@ $(document).ready(function () {
   });
 
   $(document).on("click", ".cardGiphy", function () {
+
     console.log($(this));
+
     var icon = $(this)[0].children[0];
     icon.classList.add("yellow");
     Bitly = {
@@ -105,12 +101,14 @@ $(document).ready(function () {
     bitlyShort.push(Bitly);
 
     window.localStorage.setItem("url", JSON.stringify(url));
+
     window.localStorage.setItem("Bitly", JSON.stringify(bitlyShort));
+
+
 
   });
 
   $("#localBtn").on("click", function (event) {
-
     event.preventDefault();
     $("#reddit").html("");
     $("#results").html("");
@@ -121,7 +119,6 @@ $(document).ready(function () {
       bitlyArr = JSON.parse(window.localStorage.getItem("Bitly"));
       renderLocalStorge(tempArray, bitlyArr);
     }
-
   });
 
   // ---------- FUNCTIONS ----------
@@ -145,7 +142,6 @@ $(document).ready(function () {
 
   // input validation from user
   function isValidInput(search, arrValueInput) {
-
     var pattern = new RegExp(/^[a-zA-Z0-9- ]*$/);
     var hasNumber = /\d/;
     if (!arrValueInput.includes(search)) {
@@ -153,7 +149,6 @@ $(document).ready(function () {
         $("#myModal").modal();
         $("#myModal").addClass("lightMode");
       } else {
-
         arrValueInput.push(search.toLocaleLowerCase());
         $("#pastSearches").append(
           `<button class="reSearch btn mr-2">${search}</button>`
@@ -176,6 +171,7 @@ $(document).ready(function () {
       type: "GET",
       url: `https://api.giphy.com/v1/gifs/search?api_key=07S9I5BCiB35dZ0afrPbtrBm9M9xMq49&q=${str}&limit=20`,
       dataType: "json",
+
     })
       .then(function (response) {
 
@@ -184,19 +180,25 @@ $(document).ready(function () {
           // bitlyArr.push(response.data[i].bitly_url);
           $("#results")
             .append(`<div class="card col-sm-2 m-1 cardGiphy" data-id=${i} style="height: 230px">
+
+    }).then(function (response) {
+      for (var i = 0; i < response.data.length; i++) {
+        posterURL = response.data[i].images.original.url;
+        $("#results")
+          .append(`<div class="card col-sm-2 m-1 cardGiphy" data-id=${i} style="height: 230px">
            <i class="far fa-star icon"></i>
+
         <img src="${posterURL}"class="card-img-top mt-3 mx-auto" style="width:150px; height:150px" />
         <div>
           <a class="urltext" class="text-center smallest" href="${response.data[i].bitly_url}">
           ${response.data[i].bitly_url}
           </a>
-          <div><button type="button" class="linkBtn btn btn-secondary btn-sm" data-url=${response.data[i].images.original.url}>Copy Giphy URL</button></div>
+          <div><button type="button" class="linkBtn btn btn-secondary btn-sm" data-url=${response.data[i].bitly_url}>Copy Giphy URL</button></div>
         </div>
         </div>
       </>`);
-
-        }
-      });
+      }
+    });
 
     $("#search").val("");
   }
@@ -238,7 +240,12 @@ $(document).ready(function () {
         // adding catch error from GET request
       })
       .catch(function (res) {
-        $("#relevantReddit").text(res.responseJSON.message + " " + res.responseJSON.cod + " Error from GET Response Reddit");
+        $("#relevantReddit").text(
+          res.responseJSON.message +
+            " " +
+            res.responseJSON.cod +
+            " Error from GET Response Reddit"
+        );
         $("#seeMoreAt").html("");
       });
     $("#relevantReddit").text(`Some relevant stuff on Reddit:`);
@@ -261,7 +268,6 @@ $(document).ready(function () {
             class="card-img-top mt-3 mx-3" alt="Picture not found" style="width: auto">
           <div class="card-body">
           <a href="${arrReddit[y].datalink}" class="font-weight-bold" style="text-decoration:underline">${arrReddit[y].title}</a>
-            <p class="card-text font-weight-bold text-dark">Subreddit:</br>${arrReddit[y].subreddit}</p>
             <p class="card-text font-weight-bold text-dark">By: ${arrReddit[y].author}</p>
           </div>
         </div>`);
@@ -299,7 +305,6 @@ $(document).ready(function () {
   }
 
   // ------------------------------------------------------------------------------------------------------------------------//
-
 });
 
 // $.ajax({

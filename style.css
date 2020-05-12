@@ -75,3 +75,11 @@ header {
   padding-top: 5px;
   text-align: center;
 }
+
+#reddit .card {
+  height: auto !important;
+}
+
+.main {
+  margin-bottom: 25px;
+}
