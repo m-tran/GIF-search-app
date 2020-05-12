@@ -119,6 +119,7 @@ $(document).ready(function () {
         $("#myModal").modal();
         $("#myModal").addClass("lightMode");
       } else {
+
         arrValueInput.push(search.toLocaleLowerCase());
         $("#pastSearches").append(
           `<button class="reSearch btn mr-2">${search}</button>`
@@ -154,20 +155,12 @@ $(document).ready(function () {
           <a class="urltext" class="text-center smallest" href="${response.data[i].bitly_url}">
           ${response.data[i].bitly_url}
           </a>
-<<<<<<< HEAD
-=======
           <div><button class="linkBtn" data-url=${response.data[i].images.original.url}>Copy Giphy URL</button></div>
->>>>>>> 45d12b68f265405478b1d33a7a6bfc83cb25c04a
         </div>
         </div>
       </>`);
 
         }
-
-        // adding catch error from GET request
-      }).catch(function (res) {
-        $("#myModal").modal();
-
       });
 
     $("#search").val("");
@@ -210,7 +203,6 @@ $(document).ready(function () {
         // adding catch error from GET request
       })
       .catch(function (res) {
-        // $("#myModal").modal();
         $("#relevantReddit").text(res.responseJSON.message + " " + res.responseJSON.cod + " Error from GET Response Reddit");
         $("#seeMoreAt").html("");
       });
