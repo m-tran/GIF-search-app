@@ -52,12 +52,12 @@ $(document).ready(function () {
     $(this).addClass("btn-outline-success");
     $(this).text("Copied!");
 
-    window.setTimeout(function(){
+    window.setTimeout(function () {
       $(".linkBtn").removeClass("btn-outline-success");
       $(".linkBtn").addClass("btn-secondary");
       $(".linkBtn").text("Copy Giphy URL");
     }, 3000);
-  
+
     // console.error("error error");
     $textBox.remove();
   });
@@ -77,7 +77,9 @@ $(document).ready(function () {
 
     event.preventDefault();
     $("#results").html("");
-    $(".delete").html("");
+    $("#seeMoreAt").html("");
+    $("#relevantReddit").html("");
+    $("#reddit").html("");
     window.localStorage.clear();
     url = [];
   });
@@ -176,7 +178,7 @@ $(document).ready(function () {
     $("#search").val("");
   }
 
-  function renderRedditResults(str, arrReddit, arrReddit) {
+  function renderRedditResults(str, arrReddit, arrPicture) {
     // ----------------------------------------------------------------------------//
     var input = myTrim(str);
     arrReddit = [];
