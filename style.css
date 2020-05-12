@@ -21,6 +21,10 @@ input {
   width: 15%;
 }
 
+.linkBtn {
+  width: 80%;
+}
+
 header {
   display: flex;
   justify-content: flex-end;
@@ -51,4 +55,18 @@ header {
 
 .card-img-top {
   height: 150px !important;
+}
+.yellow{
+
+        float: right;
+        color: yellow;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: yellow;
+}
+.icon{
+
+   color: black;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2px;
 }
