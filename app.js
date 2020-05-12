@@ -11,17 +11,25 @@ $(document).ready(function () {
   var toggleStatus;
   var arrValueInput = [];
   var tempArray;
+  var bitlyArr;
+  var Bitly;
+
+
 
   // ---------- ON.CLICKS ----------
 
   if (localStorage) {
     tempArray = JSON.parse(window.localStorage.getItem("url"));
-    if (tempArray == null) {
+    bitlyArr = JSON.parse(window.localStorage.getItem("Bitly"));
+    if (tempArray == null && bitlyArr == null) {
       var url = [];
+      var bitlyShort = [];
       tempArray = [];
+      bitlyArr = [];
       submitBtn();
     } else {
       url = tempArray;
+      bitlyShort = bitlyArr;
       submitBtn();
     }
   }
@@ -71,16 +79,33 @@ $(document).ready(function () {
   $("#deleteBtn").on("click", function (event) {
     event.preventDefault();
     $("#results").html("");
-    $(".delete").html("");
+    $("#seeMoreAt").html("");
+    $("#relevantReddit").html("");
+    $("#reddit").html("");
     window.localStorage.clear();
     url = [];
   });
 
   $(document).on("click", ".cardGiphy", function () {
+
+    console.log($(this));
+
     var icon = $(this)[0].children[0];
     icon.classList.add("yellow");
+    Bitly = {
+
+      src: $(this)[0].children[1].currentSrc,
+      bit: $(this)[0].children[2].children[0].href,
+    };
     url.push($(this)[0].children[1].currentSrc);
+    bitlyShort.push(Bitly);
+
     window.localStorage.setItem("url", JSON.stringify(url));
+
+    window.localStorage.setItem("Bitly", JSON.stringify(bitlyShort));
+
+
+
   });
 
   $("#localBtn").on("click", function (event) {
@@ -89,23 +114,29 @@ $(document).ready(function () {
     $("#results").html("");
     $("#seeMoreAt").html("");
     $("#relevantReddit").html("");
-    if (window.localStorage.getItem("url")) {
+    if (window.localStorage.getItem("url") && window.localStorage.getItem("Bitly")) {
       tempArray = JSON.parse(window.localStorage.getItem("url"));
-      renderLocalStorge(tempArray);
+      bitlyArr = JSON.parse(window.localStorage.getItem("Bitly"));
+      renderLocalStorge(tempArray, bitlyArr);
     }
   });
 
   // ---------- FUNCTIONS ----------
 
-  function renderLocalStorge(tempArray) {
-    for (var i = 0; i < tempArray.length; i++) {
-      posterURL = tempArray[i];
+  function renderLocalStorge(tempArray, bitlyArr) {
+    let unique = [...new Set(tempArray)];
+    let uniqueBitly = [...new Set(bitlyArr)];
+    for (var i = 0; i < unique.length; i++) {
+      posterURL = unique[i];
       $("#results")
         .append(`<div class="card col-sm-2 m-1" style="height: 230px">
     <img src="${posterURL}" class="card-img-top mt-3 mx-auto " style="width:150px; height:150px" />
-    <div>   
+    <a class="urltext" class="text-center smallest" href="${uniqueBitly[i].bit}">
+    ${uniqueBitly[i].bit}</a>
+    <div><button type="button" class="linkBtn btn btn-secondary btn-sm" data-url=${uniqueBitly[i].bit}>Copy Giphy URL</button></div>
     </div>
-  </>`);
+    </div>
+  `);
     }
   }
 
@@ -140,6 +171,16 @@ $(document).ready(function () {
       type: "GET",
       url: `https://api.giphy.com/v1/gifs/search?api_key=07S9I5BCiB35dZ0afrPbtrBm9M9xMq49&q=${str}&limit=20`,
       dataType: "json",
+
+    })
+      .then(function (response) {
+
+        for (var i = 0; i < response.data.length; i++) {
+          posterURL = response.data[i].images.original.url;
+          // bitlyArr.push(response.data[i].bitly_url);
+          $("#results")
+            .append(`<div class="card col-sm-2 m-1 cardGiphy" data-id=${i} style="height: 230px">
+
     }).then(function (response) {
       for (var i = 0; i < response.data.length; i++) {
         posterURL = response.data[i].images.original.url;
@@ -162,7 +203,7 @@ $(document).ready(function () {
     $("#search").val("");
   }
 
-  function renderRedditResults(str, arrReddit, arrReddit) {
+  function renderRedditResults(str, arrReddit, arrPicture) {
     // ----------------------------------------------------------------------------//
     var input = myTrim(str);
     arrReddit = [];
