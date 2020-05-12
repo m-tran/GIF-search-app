@@ -170,38 +170,17 @@ $(document).ready(function () {
     $.ajax({
       type: "GET",
       url: `https://api.giphy.com/v1/gifs/search?api_key=07S9I5BCiB35dZ0afrPbtrBm9M9xMq49&q=${str}&limit=20`,
-      dataType: "json",
-
-    })
-      .then(function (response) {
-
-        for (var i = 0; i < response.data.length; i++) {
-          posterURL = response.data[i].images.original.url;
-          // bitlyArr.push(response.data[i].bitly_url);
-          $("#results")
-            .append(`<div class="card col-sm-2 m-1 cardGiphy" data-id=${i} style="height: 230px">
-
-    }).then(function (response) {
-      for (var i = 0; i < response.data.length; i++) {
-        posterURL = response.data[i].images.original.url;
-        $("#results")
-          .append(`<div class="card col-sm-2 m-1 cardGiphy" data-id=${i} style="height: 230px">
-           <i class="far fa-star icon"></i>
-
-        <img src="${posterURL}"class="card-img-top mt-3 mx-auto" style="width:150px; height:150px" />
-        <div>
-          <a class="urltext" class="text-center smallest" href="${response.data[i].bitly_url}">
-          ${response.data[i].bitly_url}
-          </a>
-          <div><button type="button" class="linkBtn btn btn-secondary btn-sm" data-url=${response.data[i].bitly_url}>Copy Giphy URL</button></div>
-        </div>
-        </div>
-      </>`);
-      }
-    });
-
-    $("#search").val("");
+      dataType: "json"
+    )
   }
+
+}
+
+
+
+
+
+
 
   function renderRedditResults(str, arrReddit, arrPicture) {
     // ----------------------------------------------------------------------------//
@@ -242,9 +221,9 @@ $(document).ready(function () {
       .catch(function (res) {
         $("#relevantReddit").text(
           res.responseJSON.message +
-            " " +
-            res.responseJSON.cod +
-            " Error from GET Response Reddit"
+          " " +
+          res.responseJSON.cod +
+          " Error from GET Response Reddit"
         );
         $("#seeMoreAt").html("");
       });
