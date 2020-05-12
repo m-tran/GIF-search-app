@@ -65,8 +65,13 @@ header {
 }
 .icon{
 
-   color: black;
+    color: black;
     display: flex;
     justify-content: flex-end;
     margin-top: 2px;
+}
+
+.card {
+  height: 260px !important;
+  padding-top: 5px;
 }
