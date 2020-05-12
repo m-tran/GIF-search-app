@@ -31,18 +31,18 @@ $(document).ready(function () {
     $("#temp").html($textBox);
     $textBox.select();
     console.log($textBox);
-    document.execCommand("copy")
+    document.execCommand("copy");
 
     $(this).removeClass("btn-secondary");
     $(this).addClass("btn-outline-success");
     $(this).text("Copied!");
 
-    window.setTimeout(function(){
+    window.setTimeout(function () {
       $(".linkBtn").removeClass("btn-outline-success");
       $(".linkBtn").addClass("btn-secondary");
       $(".linkBtn").text("Copy Giphy URL");
     }, 3000);
-  
+
     // console.error("error error");
     $textBox.remove();
   });
