@@ -80,3 +80,7 @@ header {
 #reddit .card {
   height: auto !important;
 }
+
+.main {
+  margin-bottom: 25px;
+}
