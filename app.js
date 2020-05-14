@@ -88,7 +88,6 @@ $(document).ready(function () {
 
   // on click for local storage
   $(document).on("click", ".cardGiphy", function () {
-    console.log($(this));
 
     var icon = $(this)[0].children[0];
     icon.classList.add("yellow");
