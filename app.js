@@ -4,7 +4,6 @@ $(document).ready(function () {
   var search = "";
   var posterURL = "";
   var oldSearch = "";
-  // add---------------------------------------
   var arrReddit;
   var arrPicture;
   var data;
@@ -14,8 +13,9 @@ $(document).ready(function () {
   var bitlyArr;
   var Bitly;
 
-  // ---------- ON.CLICKS ----------
 
+
+  // condition checks local storge and start the app
   if (localStorage) {
     tempArray = JSON.parse(window.localStorage.getItem("url"));
     bitlyArr = JSON.parse(window.localStorage.getItem("Bitly"));
@@ -32,7 +32,7 @@ $(document).ready(function () {
     }
   }
 
-  // submit button
+  // function submit button 
   function submitBtn() {
     $(document).on("click", "#btnSubmit", function (e) {
       e.preventDefault();
@@ -41,7 +41,9 @@ $(document).ready(function () {
       isValidInput(search, arrValueInput);
     });
   }
+  // ---------- ON.CLICKS ----------
 
+  // on click for clipboard copy-past
   $(document).on("click", ".linkBtn", function () {
     var link = $(this).attr("data-url");
     var $textBox = $(`<input type='text' value=${link}>`);
@@ -64,7 +66,6 @@ $(document).ready(function () {
     $textBox.remove();
   });
 
-  // see more button
 
   // history
   $(document).on("click", ".reSearch", function () {
@@ -74,6 +75,7 @@ $(document).ready(function () {
     renderRedditResults(oldSearch, arrReddit, arrPicture);
   });
 
+  // delete local storage 
   $("#deleteBtn").on("click", function (event) {
     event.preventDefault();
     $("#results").html("");
@@ -84,6 +86,7 @@ $(document).ready(function () {
     url = [];
   });
 
+  // on click for local storage
   $(document).on("click", ".cardGiphy", function () {
     console.log($(this));
 
@@ -101,6 +104,7 @@ $(document).ready(function () {
     window.localStorage.setItem("Bitly", JSON.stringify(bitlyShort));
   });
 
+  // button show local storage
   $("#localBtn").on("click", function (event) {
     event.preventDefault();
     $("#reddit").html("");
@@ -160,6 +164,7 @@ $(document).ready(function () {
     }
   }
 
+  // function for render giphy 
   function renderGiphyResults(str) {
     $("#results").html("");
 
@@ -170,7 +175,6 @@ $(document).ready(function () {
     }).then(function (response) {
       for (var i = 0; i < response.data.length; i++) {
         posterURL = response.data[i].images.original.url;
-        // bitlyArr.push(response.data[i].bitly_url);
         $("#results")
           .append(`<div class="card col-sm-2 m-1 cardGiphy" data-id=${i} style="height: 230px">
           <i class="far fa-star icon"></i>
@@ -189,6 +193,8 @@ $(document).ready(function () {
 
     $("#search").val("");
   }
+
+  // function for render reddit 
   function renderRedditResults(str, arrReddit, arrPicture) {
     // ----------------------------------------------------------------------------//
     var input = myTrim(str);
@@ -242,7 +248,7 @@ $(document).ready(function () {
   function myTrim(str) {
     return str.replace(/\s/g, "");
   }
-
+  // function making random pictures and comments from reddit response
   function randomPictureAndComments(arrPicture, arrReddit) {
     $("#reddit").html("");
     for (var i = 0; i < 4; i++) {
@@ -265,19 +271,6 @@ $(document).ready(function () {
     }
   }
 
-  //function adding style to Modal
-  function modalSetClassDarkLightMode(toggleStatus) {
-    toggleStatus = toggleDisplay.getAttribute("class");
-
-    if (toggleStatus === "toggle toggleFalse") {
-      toggleDisplay.setAttribute("class", "toggle toggleTrue");
-      $("#myModal").addClass("darkMode");
-    } else {
-      toggleDisplay.setAttribute("class", "toggle toggleFalse");
-      $("#myModal").addClass("lightMode");
-    }
-  }
-
   // function - white dark mode
   function whiteModeDark(toggleStatus) {
     toggleStatus = toggleDisplay.getAttribute("class");
@@ -290,15 +283,5 @@ $(document).ready(function () {
     }
   }
 
-  // ------------------------------------------------------------------------------------------------------------------------//
-});
 
-// $.ajax({
-//   type: "GET",
-//   url: `https://www.reddit.com/r/${str}/.json`,
-//   dataType: "json",
-// }).then(function (res) {
-//   console.log(res);
-//   console.log(res.data.children[0].data);
-//   $("body").append(`<p>${res.data.children[0].data}</p>`);
-// });
+});
