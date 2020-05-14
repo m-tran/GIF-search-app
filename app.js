@@ -86,21 +86,18 @@ $(document).ready(function () {
     url = [];
   });
 
-  $(document).on("click", ".icon", function () {
-
-
-    $(this).addClass("yello");
-
-  });
   // on click for local storage
   $(document).on("click", ".cardGiphy", function () {
 
-
+    var icon = $(this)[0];
+    console.log("hello");
+    icon.classList.add("yellow");
     Bitly = {
-      src: $(this)[0].children[1].currentSrc,
-      bit: $(this)[0].children[2].children[0].href,
+      src: $(this).parent()[0].children[1].currentSrc,
+      bit: $(this).parent()[0].children[2].children[0].href,
     };
-    url.push($(this)[0].children[1].currentSrc);
+
+    url.push($(this).parent()[0].children[1].currentSrc);
     bitlyShort.push(Bitly);
 
     window.localStorage.setItem("url", JSON.stringify(url));
@@ -180,21 +177,18 @@ $(document).ready(function () {
       for (var i = 0; i < response.data.length; i++) {
         posterURL = response.data[i].images.original.url;
         $("#results")
-          .append(`
-          <div class="card col-sm-2 m-1" data-id=${i} style="height: 230px">
-          <div class="cardGiphy"> 
-          
-          <img src="${posterURL}"class="card-img-top mt-3 mx-auto" style="width:150px; height:150px" />
+          .append(`<div class="card col-sm-2 m-1" data-id=${i} style="height: 230px">
+            <i class="far fa-star icon cardGiphy"></i>
+        <img src="${posterURL}"class="card-img-top mt-3 mx-auto" style="width:150px; height:150px" />
+        <div>
           <a class="urltext" class="text-center smallest" href="${response.data[i].bitly_url}">
           ${response.data[i].bitly_url}
           </a>
-          <div><button type="button" class="linkBtn btn btn-secondary btn-sm" data-url=${response.data[i].bitly_url}>Copy Giphy URL</button></div>
-          </div>    
-          </div>
-          
-          <i class="far fa-star icon"></i>
-          
-      `);
+        </div>
+        
+        <div><button type="button" class="linkBtn btn btn-secondary btn-sm" data-url=${response.data[i].bitly_url}>Copy Giphy URL</button></div>
+        </div>
+      </>`);
       }
     });
 
