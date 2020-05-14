@@ -13,8 +13,6 @@ $(document).ready(function () {
   var bitlyArr;
   var Bitly;
 
-
-
   // condition checks local storge and start the app
   if (localStorage) {
     tempArray = JSON.parse(window.localStorage.getItem("url"));
@@ -32,7 +30,7 @@ $(document).ready(function () {
     }
   }
 
-  // function submit button 
+  // function submit button
   function submitBtn() {
     $(document).on("click", "#btnSubmit", function (e) {
       e.preventDefault();
@@ -64,7 +62,6 @@ $(document).ready(function () {
     $textBox.remove();
   });
 
-
   // history
   $(document).on("click", ".reSearch", function () {
     oldSearch = $(this).text();
@@ -73,7 +70,7 @@ $(document).ready(function () {
     renderRedditResults(oldSearch, arrReddit, arrPicture);
   });
 
-  // delete local storage 
+  // delete local storage
   $("#deleteBtn").on("click", function (event) {
     event.preventDefault();
     $("#results").html("");
@@ -86,7 +83,6 @@ $(document).ready(function () {
 
   // on click for local storage
   $(document).on("click", ".cardGiphy", function () {
-
     var icon = $(this)[0];
     icon.classList.add("yellow");
     Bitly = {
@@ -161,7 +157,7 @@ $(document).ready(function () {
     }
   }
 
-  // function for render giphy 
+  // function for render giphy
   function renderGiphyResults(str) {
     $("#results").html("");
 
@@ -191,7 +187,7 @@ $(document).ready(function () {
     $("#search").val("");
   }
 
-  // function for render reddit 
+  // function for render reddit
   function renderRedditResults(str, arrReddit, arrPicture) {
     // ----------------------------------------------------------------------------//
     var input = myTrim(str);
@@ -231,9 +227,9 @@ $(document).ready(function () {
       .catch(function (res) {
         $("#relevantReddit").text(
           res.responseJSON.message +
-          " " +
-          res.responseJSON.cod +
-          " Error from GET Response Reddit"
+            " " +
+            res.responseJSON.cod +
+            " Error from GET Response Reddit"
         );
         $("#seeMoreAt").html("");
       });
@@ -279,6 +275,4 @@ $(document).ready(function () {
       document.body.setAttribute("class", "lightMode");
     }
   }
-
-
 });
