@@ -90,12 +90,13 @@ $(document).ready(function () {
   $(document).on("click", ".cardGiphy", function () {
 
     var icon = $(this)[0];
-
+    console.log("hello");
     icon.classList.add("yellow");
     Bitly = {
       src: $(this).parent()[0].children[1].currentSrc,
       bit: $(this).parent()[0].children[2].children[0].href,
     };
+
     url.push($(this).parent()[0].children[1].currentSrc);
     bitlyShort.push(Bitly);
 
@@ -177,7 +178,7 @@ $(document).ready(function () {
         posterURL = response.data[i].images.original.url;
         $("#results")
           .append(`<div class="card col-sm-2 m-1" data-id=${i} style="height: 230px">
-            <i class="cardGiphy far fa-star icon"></i>
+            <i class="far fa-star icon cardGiphy"></i>
         <img src="${posterURL}"class="card-img-top mt-3 mx-auto" style="width:150px; height:150px" />
         <div>
           <a class="urltext" class="text-center smallest" href="${response.data[i].bitly_url}">
