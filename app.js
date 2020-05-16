@@ -47,9 +47,7 @@ $(document).ready(function () {
     var $textBox = $(`<input type='text' value=${link}>`);
     $("#temp").html($textBox);
     $textBox.select();
-    console.log($textBox);
     document.execCommand("copy");
-
     $(this).removeClass("btn-secondary");
     $(this).addClass("btn-outline-success");
     $(this).text("Copied!");
@@ -86,7 +84,6 @@ $(document).ready(function () {
   // on click for local storage
   $(document).on("click", ".cardGiphy", function () {
     var icon = $(this)[0];
-    console.log("hello");
     icon.classList.add("yellow");
     Bitly = {
       src: $(this).parent()[0].children[1].currentSrc,
@@ -95,9 +92,7 @@ $(document).ready(function () {
 
     url.push($(this).parent()[0].children[1].currentSrc);
     bitlyShort.push(Bitly);
-
     window.localStorage.setItem("url", JSON.stringify(url));
-
     window.localStorage.setItem("Bitly", JSON.stringify(bitlyShort));
   });
 
@@ -136,6 +131,7 @@ $(document).ready(function () {
   `);
     }
   }
+
 
   // input validation from user
   function isValidInput(search, arrValueInput) {
@@ -181,7 +177,7 @@ $(document).ready(function () {
           ${response.data[i].bitly_url}
           </a>
         </div>
-        
+    
         <div><button type="button" class="linkBtn btn btn-secondary btn-sm" data-url=${response.data[i].bitly_url}>Copy Giphy URL</button></div>
         </div>
       </>`);
@@ -241,7 +237,7 @@ $(document).ready(function () {
     $("#seeMoreAt").html(`See more at <a id="subredditLink" href=""></a>`);
   }
 
-  // function deleting white spaeces for Reddit GET request
+  // function deleting white spaces from input Reddit GET request
   function myTrim(str) {
     return str.replace(/\s/g, "");
   }
