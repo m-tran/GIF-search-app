@@ -79,6 +79,7 @@ $(document).ready(function () {
     $("#reddit").html("");
     window.localStorage.clear();
     url = [];
+    bitlyShort = [];
   });
 
   // on click for local storage
@@ -131,7 +132,6 @@ $(document).ready(function () {
   `);
     }
   }
-
 
   // input validation from user
   function isValidInput(search, arrValueInput) {
